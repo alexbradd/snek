@@ -129,18 +129,14 @@ int move_snake(snake_t *snake, map_t *map)
         }
     }
     // WALL COLLISION
-    if (map_at(map, get_snake_x(snake, 0), get_snake_y(snake, 0)) == WALL) {
-        printf("WALL\n\r");
+    if (map_at(map, get_snake_x(snake, 0), get_snake_y(snake, 0)) == WALL)
         return SNAKE_DED;
-    }
     // AUTO COLLISION
     for (int i = 0; i < get_snake_size(snake); i++) {
         for (int j = i + 1; j < get_snake_size(snake); j++) {
             if (get_snake_x(snake, i) == get_snake_x(snake, j) &&
-                    get_snake_y(snake, i) == get_snake_y(snake, j)) {
-                printf("AUTO\n\r");
+                    get_snake_y(snake, i) == get_snake_y(snake, j))
                 return SNAKE_DED;
-            }
         }
     }
     // FOOD
