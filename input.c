@@ -15,7 +15,9 @@ void init_term(void)
 }
 
 void reset_term(void)
-{ tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios); }
+{
+    tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
+}
 
 int kbhit(void)
 {

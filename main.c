@@ -38,19 +38,31 @@ static int main_loop(void)
     save_map_state(main_map, &initial_state);
     init_term();
     spawn_food(main_map);
-    while(loop) {
+    while (loop) {
         clrscr();
         printf("SNEK! Info: press 'q' to quit and w-a-s-d to move\n\r");
         restore_map_state(main_map, &initial_state); // flush map
         if (kbhit()) { // get input
             key = getch();
             switch (key) {
-                case UP_K: change_direction(snake, UP); break;
-                case DOWN_K: change_direction(snake, DOWN); break;
-                case RIGHT_K: change_direction(snake, RIGHT); break;
-                case LEFT_K: change_direction(snake, LEFT); break;
-                case QUIT_K: loop = false; break;
-                case '[': getch(); break;
+                case UP_K:
+                    change_direction(snake, UP);
+                    break;
+                case DOWN_K:
+                    change_direction(snake, DOWN);
+                    break;
+                case RIGHT_K:
+                    change_direction(snake, RIGHT);
+                    break;
+                case LEFT_K:
+                    change_direction(snake, LEFT);
+                    break;
+                case QUIT_K:
+                    loop = false;
+                    break;
+                case '[':
+                    getch();
+                    break;
             }
         }
         if (loop) {

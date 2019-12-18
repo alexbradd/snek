@@ -7,7 +7,7 @@
 #   define LEFT_K  'a'
 #   define QUIT_K  'q'
 
-    /* CROSS-PLATFORM STUFF */
+/* CROSS-PLATFORM STUFF */
 #   if defined(_WIN64) || defined(_WIN32)
 #       include <conio.h>
 #       define init_term() ;
@@ -19,12 +19,9 @@
 #       include <time.h>
 #       include <termios.h>
 #       include <string.h>
-        void init_term(void);
-        void reset_term(void);
-        int kbhit(void);
-        int getch(void);
+void init_term(void);
+void reset_term(void);
+int kbhit(void);
+int getch(void);
 #   endif
-
-
-
 #endif

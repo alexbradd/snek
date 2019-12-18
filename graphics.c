@@ -8,7 +8,7 @@ map_t *create_map(int x_tiles, int y_tiles)
     if (map) {
         map->x_size = x_tiles;
         map->y_size = y_tiles;
-        for(int y = 0; y < MAX_Y; y++) {
+        for (int y = 0; y < MAX_Y; y++) {
             for (int x = 0; x < MAX_X; x++) {
                 if (x < x_tiles || y < y_tiles)
                     map_at(map, x, y) = EMPTY;
@@ -38,15 +38,27 @@ void destroy_map(map_t *map)
 
 void draw_map(const map_t *map)
 {
-    for(int y = 0; y < map_y_size(map); y++) {
+    for (int y = 0; y < map_y_size(map); y++) {
         for (int x = 0; x < map_x_size(map); x++) {
             switch (map_at(map, x, y)) {
-                case EMPTY: fprintf(stdout, "%c", EMPTY_C); break;
-                case WALL: fprintf(stdout, "%c", WALL_C); break;
-                case HEAD: fprintf(stdout, "%c", HEAD_C); break;
-                case BODY: fprintf(stdout, "%c", BODY_C); break;
-                case FOOD: fprintf(stdout, "%c", FOOD_C); break;
-                case INVALID: default: break; // fall through
+                case EMPTY:
+                    fprintf(stdout, "%c", EMPTY_C);
+                    break;
+                case WALL:
+                    fprintf(stdout, "%c", WALL_C);
+                    break;
+                case HEAD:
+                    fprintf(stdout, "%c", HEAD_C);
+                    break;
+                case BODY:
+                    fprintf(stdout, "%c", BODY_C);
+                    break;
+                case FOOD:
+                    fprintf(stdout, "%c", FOOD_C);
+                    break;
+                case INVALID:
+                default:
+                    break; // fall through
             }
         }
         printf("\n\r");
@@ -93,10 +105,18 @@ int move_snake(snake_t *snake, map_t *map)
 
     temp1 = get_snake_seg(snake)[0];
     switch (get_direction(snake)) {
-        case UP: get_snake_y(snake, 0)--; break;
-        case DOWN: get_snake_y(snake, 0)++; break;
-        case LEFT: get_snake_x(snake, 0)--; break;
-        case RIGHT: get_snake_x(snake, 0)++; break;
+        case UP:
+            get_snake_y(snake, 0)--;
+            break;
+        case DOWN:
+            get_snake_y(snake, 0)++;
+            break;
+        case LEFT:
+            get_snake_x(snake, 0)--;
+            break;
+        case RIGHT:
+            get_snake_x(snake, 0)++;
+            break;
     }
     for (int i = 1; i < get_snake_size(snake); i++) {
         // move segments
@@ -117,7 +137,7 @@ int move_snake(snake_t *snake, map_t *map)
     for (int i = 0; i < get_snake_size(snake); i++) {
         for (int j = i + 1; j < get_snake_size(snake); j++) {
             if (get_snake_x(snake, i) == get_snake_x(snake, j) &&
-                get_snake_y(snake, i) == get_snake_y(snake, j)) {
+                    get_snake_y(snake, i) == get_snake_y(snake, j)) {
                 printf("AUTO\n\r");
                 return SNAKE_DED;
             }
@@ -125,13 +145,13 @@ int move_snake(snake_t *snake, map_t *map)
     }
     // FOOD
     if (get_snake_x(snake, 0) == get_food_x(current_food) &&
-        get_snake_y(snake, 0) == get_food_y(current_food)) {
+            get_snake_y(snake, 0) == get_food_y(current_food)) {
         spawn_food(map);
         if (get_snake_size(snake) >= MAX_LEN)
             return SNAKE_LONG;
         get_snake_size(snake)++;
         /* if going up, add one down etc */
-        switch(get_direction(snake)) {
+        switch (get_direction(snake)) {
             case UP:
                 get_snake_x(snake, get_snake_size(snake) - 1) =
                     get_snake_x(snake, get_snake_size(snake) - 2);
@@ -184,7 +204,7 @@ void spawn_food(map_t *map)
         y = rand() % map_y_size(map);
         if (current_food) {
             while ((x == get_food_x(current_food) && y == get_food_y(current_food)) ||
-                   map_at(map, x, y) == WALL) {
+                    map_at(map, x, y) == WALL) {
                 x = rand() % map_x_size(map);
                 y = rand() % map_y_size(map);
             }
