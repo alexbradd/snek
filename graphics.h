@@ -84,7 +84,9 @@ void apply_food(map_t *map);
 #   define CLEAR_CSI "\e[1;1H\e[2J"
 #   if defined(_WIN64) || defined(_WIN32)
 #       include <stdlib.h>
-#       define clrscr() do {system("cls");} while(0);
+#       include <windows.h>
+#       define clrscr() do {system("cls");} while(0)
+#       define usleep(useconds) do{Sleep((useconds) * 1000);} while(0)
 #   elif defined(__unix__) || defined(__APPLE__)
 #       define clrscr() do {printf(CLEAR_CSI);} while(0)
 #   endif
