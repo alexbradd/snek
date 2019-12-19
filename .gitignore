@@ -1,0 +1,6 @@
+# Ignore object files
+*.o
+
+# Ignore executable
+snek
+a.out
