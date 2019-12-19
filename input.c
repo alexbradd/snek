@@ -1,5 +1,7 @@
 #include "./input.h"
 
+#if defined(linux)
+
 static struct termios orig_termios;
 
 void init_term(void)
@@ -37,3 +39,5 @@ int getch(void)
     else
         return c;
 }
+
+#endif
