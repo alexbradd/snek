@@ -85,7 +85,7 @@ void apply_food(map_t *map);
 #   if defined(_WIN64) || defined(_WIN32)
 #       include <stdlib.h>
 #       define clrscr() do {system("cls");} while(0);
-#   else
+#   elif defined(__unix__)
 #       define clrscr() do {printf(CLEAR_CSI);} while(0)
 #   endif
 #endif
