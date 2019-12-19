@@ -83,7 +83,8 @@ void apply_food(map_t *map);
 /* DEFINE CLRSCR */
 #   define CLEAR_CSI "\e[1;1H\e[2J"
 #   if defined(_WIN64) || defined(_WIN32)
-#       include <conio.h>
+#       include <stdlib.h>
+#       define clrscr() do {system("cls");} while(0);
 #   else
 #       define clrscr() do {printf(CLEAR_CSI);} while(0)
 #   endif
