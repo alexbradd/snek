@@ -12,7 +12,7 @@
 #       include <conio.h>
 #       define init_term() ;
 #       define reset_term() ;
-#   elif defined(__unix__)
+#   elif defined(__unix__) || defined(__APPLE__)
 #       include <stdlib.h>
 #       include <unistd.h>
 #       include <sys/select.h>

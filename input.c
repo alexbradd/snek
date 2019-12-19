@@ -1,6 +1,6 @@
 #include "./input.h"
 
-#if defined(linux)
+#if defined(__unix__) || defined(__APPLE__)
 
 static struct termios orig_termios;
 
