@@ -10,8 +10,9 @@
 /* CROSS-PLATFORM STUFF */
 #   if defined(_WIN64) || defined(_WIN32)
 #       include <conio.h>
-#       define init_term() ;
-#       define reset_term() ;
+        struct termios {};
+#       define init_term(orig_termios) ;
+#       define reset_term(orig_termios) ;
 #   elif defined(__unix__) || defined(__APPLE__)
 #       include <stdlib.h>
 #       include <unistd.h>
@@ -19,8 +20,8 @@
 #       include <time.h>
 #       include <termios.h>
 #       include <string.h>
-void init_term(void);
-void reset_term(void);
+void init_term(struct termios *orig_termios);
+void reset_term(sturct termios *orig_termios);
 int kbhit(void);
 int getch(void);
 #   endif

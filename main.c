@@ -8,6 +8,7 @@
 
 static map_t *main_map;
 static snake_t *snake;
+static struct termios orig_termios;
 
 static int main_loop(void);
 
@@ -20,11 +21,15 @@ int main(void)
 
     if (!snake || !main_map)
         return 1;
+        
+    init_term(&orig_termios);
 
     exit = main_loop();
 
     destroy_snake(snake);
     destroy_map(main_map);
+    
+    reset_term(&orig_termios);
 
     return exit;
 }
@@ -36,7 +41,6 @@ static int main_loop(void)
     map_t initial_state;
 
     save_map_state(main_map, &initial_state);
-    init_term();
     spawn_food(main_map);
     while (loop) {
         clrscr();
@@ -76,13 +80,11 @@ static int main_loop(void)
                 apply_snake(main_map, snake); // draw snake
                 apply_food(main_map); // draw food
                 draw_map(main_map); // draw everything
-                usleep(500000 - get_size(snake) * 10000);
+                usleep(500000 - (get_size(snake) * 500));
             }
         }
     }
     restore_map_state(main_map, &initial_state); // flush map
     destroy_food(); // cleanup
-    reset_term();
     return 0;
 }
-

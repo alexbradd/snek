@@ -2,9 +2,7 @@
 
 #if defined(__unix__) || defined(__APPLE__)
 
-static struct termios orig_termios;
-
-void init_term(void)
+void init_term(struct termios *orig_termios)
 {
     struct termios new_termios;
 
@@ -16,9 +14,9 @@ void init_term(void)
     tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
 }
 
-void reset_term(void)
+void reset_term(struct termios *orig_termios)
 {
-    tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
+    tcsetattr(STDIN_FILENO, TCSANOW, orig_termios);
 }
 
 int kbhit(void)
