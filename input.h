@@ -21,7 +21,7 @@
 #       include <termios.h>
 #       include <string.h>
 void init_term(struct termios *orig_termios);
-void reset_term(sturct termios *orig_termios);
+void reset_term(struct termios *orig_termios);
 int kbhit(void);
 int getch(void);
 #   endif

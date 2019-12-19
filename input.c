@@ -6,18 +6,15 @@ void init_term(struct termios *orig_termios)
 {
     struct termios new_termios;
 
-    tcgetattr(STDIN_FILENO, &orig_termios);
+    tcgetattr(STDIN_FILENO, orig_termios);
     memcpy(&new_termios, &orig_termios, sizeof(struct termios));
 
-    atexit(reset_term);
     cfmakeraw(&new_termios);
     tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
 }
 
 void reset_term(struct termios *orig_termios)
-{
-    tcsetattr(STDIN_FILENO, TCSANOW, orig_termios);
-}
+{ tcsetattr(STDIN_FILENO, TCSANOW, orig_termios); }
 
 int kbhit(void)
 {
