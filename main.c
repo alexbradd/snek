@@ -70,7 +70,7 @@ static int main_loop(void)
                 apply_snake(main_map, snake); // draw snake
                 apply_food(main_map); // draw food
                 draw_map(main_map); // draw everything
-                usleep(500000 - (get_size(snake) * 500));
+                usleep(500000 - (get_snake_size(snake) * 500));
             }
         }
     }

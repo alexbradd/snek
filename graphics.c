@@ -101,7 +101,7 @@ snake_t *create_snake(void)
         get_snake_y(s, 0) = SPAWN_Y;
         get_snake_x(s, 1) = SPAWN_X + 1;
         get_snake_y(s, 1) = SPAWN_Y;
-        change_direction(s, UP);
+        get_snake_direction(s) = UP;
     }
     return s;
 }
@@ -119,7 +119,7 @@ int move_snake(snake_t *snake, map_t *map)
     snake_segment_t temp1, temp2;
 
     temp1 = get_snake_seg(snake)[0];
-    switch (get_direction(snake)) {
+    switch (get_snake_direction(snake)) {
         case UP:
             get_snake_y(snake, 0)--;
             break;
@@ -162,7 +162,7 @@ int move_snake(snake_t *snake, map_t *map)
             return SNAKE_LONG;
         get_snake_size(snake)++;
         /* if going up, add one down etc */
-        switch (get_direction(snake)) {
+        switch (get_snake_direction(snake)) {
             case UP:
                 get_snake_x(snake, get_snake_size(snake) - 1) =
                     get_snake_x(snake, get_snake_size(snake) - 2);

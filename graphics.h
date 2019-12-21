@@ -43,13 +43,12 @@ typedef struct {
 #define map_x_size(map_ptr) map_ptr->x_size
 #define map_y_size(map_ptr) map_ptr->y_size
 
-#define get_size(snake_ptr) snake_ptr->size
-#define get_direction(snake_ptr) snake_ptr->direction
 #define get_snake_seg(snake_ptr) snake_ptr->segments
 #define get_snake_x(snake_ptr, seg) snake_ptr->segments[seg].x
 #define get_snake_y(snake_ptr, seg) snake_ptr->segments[seg].y
 #define get_snake_size(snake_ptr) snake_ptr->size
-#define change_direction(snake_ptr, direction) do {get_direction(snake_ptr) = direction;} while(0)
+#define get_snake_direction(snake_ptr) snake_ptr->direction
+// #define change_direction(snake_ptr, direction) do {get_direction(snake_ptr) = direction;} while(0)
 
 #define get_food_x(food_ptr) food_ptr->x
 #define get_food_y(food_ptr) food_ptr->y
