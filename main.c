@@ -5,9 +5,19 @@
 #include "./graphics.h"
 #include "./input.h"
 
+#if defined(_WIN64) || defined(_WIN32)
+
+#include <windows.h>
+#define usleep(useconds) do {Sleep((useconds) * 1000);} while(0)
+
+#elif defined(__unix__) || defined(__APPLE__)
+
+#include <unistd.h>
+
+#endif
+
 static map_t *main_map;
 static snake_t *snake;
-static struct termios orig_termios;
 
 static int main_loop(void);
 
@@ -21,14 +31,14 @@ int main(void)
     if (!snake || !main_map)
         return 1;
         
-    init_term(&orig_termios);
+    init_term();
 
     exit = main_loop();
 
     destroy_snake(snake);
     destroy_map(main_map);
     
-    reset_term(&orig_termios);
+    reset_term();
 
     return exit;
 }

@@ -1,6 +1,21 @@
 #include "./graphics.h"
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+
 static food_t *current_food = NULL;
+
+#if defined(_WIN64) || defined(_WIN32) // OS - Windows
+void clrscr(void) {system("cls");}
+
+#elif defined(__unix__) || defined(__APPLE__) // OS - Unix
+
+#define CLEAR_CSI "\e[1;1H\e[2J"
+void clrscr(void) { printf(CLEAR_CSI); }
+
+#endif
 
 map_t *create_map(int x_tiles, int y_tiles)
 {

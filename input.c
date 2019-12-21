@@ -1,20 +1,29 @@
 #include "./input.h"
 
-#if defined(__unix__) || defined(__APPLE__)
+#if defined(__unix__) || defined(__APPLE__) // OS - Unix
 
-void init_term(struct termios *orig_termios)
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/select.h>
+#include <time.h>
+#include <termios.h>
+#include <string.h>
+
+static struct termios orig_termios;
+
+void init_term(void)
 {
     struct termios new_termios;
 
-    tcgetattr(STDIN_FILENO, orig_termios);
+    tcgetattr(STDIN_FILENO, &orig_termios);
     memcpy(&new_termios, &orig_termios, sizeof(struct termios));
 
     cfmakeraw(&new_termios);
     tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
 }
 
-void reset_term(struct termios *orig_termios)
-{ tcsetattr(STDIN_FILENO, TCSANOW, orig_termios); }
+void reset_term(void)
+{ tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios); }
 
 int kbhit(void)
 {
@@ -35,4 +44,4 @@ int getch(void)
         return c;
 }
 
-#endif
+#endif // OS
