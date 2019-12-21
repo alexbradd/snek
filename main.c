@@ -76,7 +76,7 @@ static int main_loop(void)
                 apply_snake(main_map, snake); // draw snake
                 apply_food(main_map); // draw food
                 draw_map(main_map); // draw everything
-                usleep(500000 - (get_snake_size(snake) * 500));
+                usleep(500000 - (get_snake_size(snake) * 700));
             }
         }
     }
@@ -112,7 +112,7 @@ int update_direction(snake_t *snake)
                 break;
             case ESC_K:
                 getch(); // [
-                update_direction(snake);
+                return update_direction(snake);
                 break;
         }
     }
