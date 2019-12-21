@@ -20,6 +20,7 @@ static map_t *main_map;
 static snake_t *snake;
 
 static int main_loop(void);
+static int update_direction(snake_t *snake);
 
 int main(void)
 {
@@ -30,14 +31,14 @@ int main(void)
 
     if (!snake || !main_map)
         return 1;
-        
+
     init_term();
 
     exit = main_loop();
 
     destroy_snake(snake);
     destroy_map(main_map);
-    
+
     reset_term();
 
     return exit;
@@ -46,7 +47,7 @@ int main(void)
 static int main_loop(void)
 {
     bool loop = true;
-    int key, exit;
+    int exit;
     map_t initial_state;
 
     save_map_state(main_map, &initial_state);
@@ -55,29 +56,9 @@ static int main_loop(void)
         clrscr();
         printf("SNEK! Info: press 'q' to quit and w-a-s-d to move\n\r");
         restore_map_state(main_map, &initial_state); // flush map
-        if (kbhit()) { // get input
-            key = getch();
-            switch (key) {
-                case UP_K:
-                    change_direction(snake, UP);
-                    break;
-                case DOWN_K:
-                    change_direction(snake, DOWN);
-                    break;
-                case RIGHT_K:
-                    change_direction(snake, RIGHT);
-                    break;
-                case LEFT_K:
-                    change_direction(snake, LEFT);
-                    break;
-                case QUIT_K:
-                    loop = false;
-                    break;
-                case '[':
-                    getch();
-                    break;
-            }
-        }
+        exit = update_direction(snake);
+        if (exit != 0)
+            loop = false;
         if (loop) {
             exit = move_snake(snake, main_map);
             if (exit == SNAKE_DED) {
@@ -95,5 +76,39 @@ static int main_loop(void)
     }
     restore_map_state(main_map, &initial_state); // flush map
     destroy_food(); // cleanup
+    return 0;
+}
+
+int update_direction(snake_t *snake)
+{
+    int key;
+    if (kbhit()) { // get input
+        key = getch();
+        switch (key) {
+            case UP_K:
+            case UP_ARR_K:
+                change_direction(snake, UP);
+                break;
+            case DOWN_K:
+            case DOWN_ARR_K:
+                change_direction(snake, DOWN);
+                break;
+            case RIGHT_K:
+            case RIGHT_ARR_K:
+                change_direction(snake, RIGHT);
+                break;
+            case LEFT_K:
+            case LEFT_ARR_K:
+                change_direction(snake, LEFT);
+                break;
+            case QUIT_K:
+                return -1;
+                break;
+            case ESC_K:
+                getch(); // [
+                update_direction(snake);
+                break;
+        }
+    }
     return 0;
 }

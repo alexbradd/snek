@@ -2,11 +2,20 @@
 
 #define __INPUT_H__ // Guard macro
 
-#define UP_K    'w'
-#define DOWN_K  's'
-#define RIGHT_K 'd'
-#define LEFT_K  'a'
-#define QUIT_K  'q'
+#define   UP_K          'w'
+#define   UP_ARR_K      'A'
+
+#define   DOWN_K        's'
+#define   DOWN_ARR_K    'B'
+
+#define   RIGHT_K       'd'
+#define   RIGHT_ARR_K   'C'
+
+#define   LEFT_K        'a'
+#define   LEFT_ARR_K    'D'
+
+#define   QUIT_K        'q'
+#define   ESC_K         '\e'
 
 #if defined(_WIN64) || defined(_WIN32) // OS
 
