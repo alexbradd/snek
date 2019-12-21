@@ -8,7 +8,7 @@
 #if defined(_WIN64) || defined(_WIN32)
 
 #include <windows.h>
-#define usleep(useconds) do {Sleep((useconds) * 1000);} while(0)
+#define usleep(useconds) do {Sleep((useconds) * 0.001);} while(0)
 
 #elif defined(__unix__) || defined(__APPLE__)
 
