@@ -87,19 +87,19 @@ int update_direction(snake_t *snake)
         switch (key) {
             case UP_K:
             case UP_ARR_K:
-                change_direction(snake, UP);
+                get_snake_direction(snake) = UP;
                 break;
             case DOWN_K:
             case DOWN_ARR_K:
-                change_direction(snake, DOWN);
+                get_snake_direction(snake) = DOWN;
                 break;
             case RIGHT_K:
             case RIGHT_ARR_K:
-                change_direction(snake, RIGHT);
+                get_snake_direction(snake) = RIGHT;
                 break;
             case LEFT_K:
             case LEFT_ARR_K:
-                change_direction(snake, LEFT);
+                get_snake_direction(snake) = LEFT;
                 break;
             case QUIT_K:
                 return -1;
