@@ -52,9 +52,15 @@ static int main_loop(void)
 
     save_map_state(main_map, &initial_state);
     spawn_food(main_map);
+    // Intro
+    printf("SNEK TIME!\n\rUse arrow keys or WASD to move. If you want to quit "
+           "press 'q'\n\r");
+    for (int i = 10; i >= 0; i--) {
+        printf("%d\n\r", i);
+        usleep(1000000);
+    }
     while (loop) {
         clrscr();
-        printf("SNEK! Info: press 'q' to quit and w-a-s-d to move\n\r");
         restore_map_state(main_map, &initial_state); // flush map
         exit = update_direction(snake);
         if (exit != 0)
