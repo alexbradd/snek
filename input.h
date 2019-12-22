@@ -21,15 +21,18 @@
 
 #include <conio.h>
 
-#define init_term(orig_term_data) ;
-#define reset_term(orig_term_data) ;
+int init_term(void);
+int reset_term(void);
+
+//#define init_term() ;
+//#define reset_term() ;
 /*int kbhit(void);*/
 /*int getch(void);*/
 
 #elif defined(__unix__) || defined(__APPLE__)
 
-void init_term(void);
-void reset_term(void);
+int init_term(void);
+int reset_term(void);
 int kbhit(void);
 int getch(void);
 

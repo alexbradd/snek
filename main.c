@@ -16,9 +16,6 @@
 
 #endif
 
-static map_t *main_map;
-static snake_t *snake;
-
 static int main_loop(void);
 static int update_direction(snake_t *snake);
 
@@ -26,29 +23,40 @@ int main(void)
 {
     int exit;
 
-    main_map = create_map(30, 20);
-    snake = create_snake();
-
-    if (!snake || !main_map)
-        return 1;
-
-    init_term();
+    exit = init_term();
+    if (exit != 0) {
+        reset_term(); // try restoring previous state
+        return exit;
+    }
 
     exit = main_loop();
+    if (exit != 0) {
+        reset_term();
+        return exit;
+    }
 
-    destroy_snake(snake);
-    destroy_map(main_map);
-
-    reset_term();
+    exit = reset_term();
+    if (exit != 0) {
+        reset_term(); // try again, just to be sure
+        return exit;
+    }
 
     return exit;
 }
 
 static int main_loop(void)
 {
+    map_t *main_map, initial_state;
+    snake_t *snake;
+
     bool loop = true;
     int exit;
-    map_t initial_state;
+
+    main_map = create_map(30, 20);
+    snake = create_snake();
+
+    if (!snake || !main_map)
+        return 1;
 
     save_map_state(main_map, &initial_state);
     spawn_food(main_map);
@@ -82,6 +90,8 @@ static int main_loop(void)
     }
     restore_map_state(main_map, &initial_state); // flush map
     destroy_food(); // cleanup
+    destroy_snake(snake);
+    destroy_map(main_map);
     return 0;
 }
 
