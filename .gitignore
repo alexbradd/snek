@@ -3,4 +3,5 @@
 
 # Ignore executable
 snek
-a.out
+*.out
+*.exe
