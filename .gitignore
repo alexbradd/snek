@@ -1,7 +1,10 @@
+# visual-studio stuff
+windows-build/
+
 # Ignore object files
 *.o
 
 # Ignore executable
-snek
-*.out
-*.exe
+# snek
+# *.out
+# *.exe
