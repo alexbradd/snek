@@ -17,26 +17,9 @@
 #define   QUIT_K        'q'
 #define   ESC_K         '\x1b'
 
-#if defined(_WIN64) || defined(_WIN32) // OS
-
-// #include <conio.h>
-
-int init_term(void);
-int reset_term(void);
-
-#define kbhit _kbhit
-// #define getch _getch
-
-/*int kbhit(void);*/
-int getch(void);
-
-#elif defined(__unix__) || defined(__APPLE__)
-
 int init_term(void);
 int reset_term(void);
 int kbhit(void);
 int getch(void);
-
-#endif // OS
 
 #endif // __INPUT_H__

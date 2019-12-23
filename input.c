@@ -56,11 +56,26 @@ int getch(void)
 {
     int read;
     INPUT_RECORD inp;
-
-    ReadConsoleInput(h_stdin, &inp, 1, &read);
-    while (inp.Event.KeyEvent.bKeyDown == FALSE || inp.Event.KeyEvent.uChar.AsciiChar == '\0')
+    do {
         ReadConsoleInput(h_stdin, &inp, 1, &read);
+    } while (inp.Event.KeyEvent.bKeyDown == FALSE || inp.Event.KeyEvent.uChar.AsciiChar == '\0');
     return inp.Event.KeyEvent.uChar.AsciiChar;
+}
+
+int kbhit(void)
+{
+    int read;
+    INPUT_RECORD inp;
+
+    PeekConsoleInput(h_stdin, &inp, 1, &read);
+    if (read >= 1) {
+        if (inp.Event.KeyEvent.bKeyDown == FALSE || inp.Event.KeyEvent.uChar.AsciiChar == '\0') {
+            ReadConsoleInput(h_stdin, &inp, 1, &read); // discard useless events to avoid reading the same event forever
+            return kbhit(); // retest for good mesure
+        }
+        return 1;
+    }
+    return 0;
 }
 
 #elif defined(__unix__) || defined(__APPLE__) // OS - Unix
