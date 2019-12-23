@@ -19,15 +19,16 @@
 
 #if defined(_WIN64) || defined(_WIN32) // OS
 
-#include <conio.h>
+// #include <conio.h>
 
 int init_term(void);
 int reset_term(void);
 
-//#define init_term() ;
-//#define reset_term() ;
+#define kbhit _kbhit
+// #define getch _getch
+
 /*int kbhit(void);*/
-/*int getch(void);*/
+int getch(void);
 
 #elif defined(__unix__) || defined(__APPLE__)
 

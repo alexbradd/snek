@@ -52,6 +52,17 @@ int reset_term(void)
     return 0;
 }
 
+int getch(void)
+{
+    int read;
+    INPUT_RECORD inp;
+
+    ReadConsoleInput(h_stdin, &inp, 1, &read);
+    while (inp.Event.KeyEvent.bKeyDown == FALSE || inp.Event.KeyEvent.uChar.AsciiChar == '\0')
+        ReadConsoleInput(h_stdin, &inp, 1, &read);
+    return inp.Event.KeyEvent.uChar.AsciiChar;
+}
+
 #elif defined(__unix__) || defined(__APPLE__) // OS - Unix
 
 #include <stdlib.h>
