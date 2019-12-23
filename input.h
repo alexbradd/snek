@@ -15,7 +15,7 @@
 #define   LEFT_ARR_K    'D'
 
 #define   QUIT_K        'q'
-#define   ESC_K         '\e'
+#define   ESC_K         '\x1b'
 
 #if defined(_WIN64) || defined(_WIN32) // OS
 

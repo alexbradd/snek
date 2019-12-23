@@ -5,7 +5,7 @@
 #include <string.h>
 #include <time.h>
 
-#define CLEAR_CSI "\e[1;1H\e[2J"
+#define CLEAR_CSI "\x1b[1;1H\x1b[2J"
 
 static food_t *current_food = NULL;
 
