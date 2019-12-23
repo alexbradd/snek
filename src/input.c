@@ -40,7 +40,7 @@ int init_term(void)
 }
 
 int reset_term(void)
-{  
+{
     if (h_stdin == INVALID_HANDLE_VALUE || h_stdout == INVALID_HANDLE_VALUE)
         return 1;
 
@@ -88,7 +88,9 @@ int kbhit(void)
 #include <string.h>
 #include <signal.h>
 
-static struct termios orig_termios = {};
+static struct termios orig_termios;
+static int empty_state = 1;
+
 static void handle_sig_int(int sig);
 
 int init_term(void)
@@ -101,6 +103,7 @@ int init_term(void)
     if (exit != 0)
         return exit;
     memcpy(&new_termios, &orig_termios, sizeof(struct termios));
+    empty_state = 0;
 
     cfmakeraw(&new_termios);
     new_termios.c_iflag &= ~IGNBRK;
@@ -118,8 +121,7 @@ int init_term(void)
 
 int reset_term(void)
 {
-    struct termios empty = {};
-    if (orig_termios == empty)
+    if (empty_state == 1)
         return 1;
     return tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
 }

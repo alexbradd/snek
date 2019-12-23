@@ -40,8 +40,6 @@ int main(void)
         reset_term(); // try again, just to be sure
         return exit;
     }
-
-    getchar();
     return exit;
 }
 
