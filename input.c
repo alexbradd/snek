@@ -1,10 +1,13 @@
 #include "./input.h"
 
+static void handle_sig_int(int sig);
+
 #if defined(_WIN64) || defined(_WIN32) // OS - Windows
 
 #include <windows.h>
 #include <stdio.h>
 #include <string.h>
+#include <signal.h>
 
 #ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
 #define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
@@ -28,6 +31,8 @@ int init_term(void)
     mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
     if (!SetConsoleMode(h_stdout, mode))
         return GetLastError();
+
+    signal(SIGINT, handle_sig_int);
 
     return 0;
 }
@@ -56,7 +61,6 @@ int reset_term(void)
 #include <time.h>
 #include <termios.h>
 #include <string.h>
-
 #include <signal.h>
 
 static struct termios orig_termios = {};
@@ -84,13 +88,8 @@ int init_term(void)
     sig.sa_handler = handle_sig_int;
     sigemptyset(&sig.sa_mask);
     sig.sa_flags = 0;
-    sigaction(SIGQUIT, &sig, NULL);
-
-    return 0;
+    return sigaction(SIGQUIT, &sig, NULL);
 }
-
-static void handle_sig_int(int sig)
-{ reset_term(); exit(0); }
 
 int reset_term(void)
 {
@@ -120,3 +119,8 @@ int getch(void)
 }
 
 #endif // OS
+
+static void handle_sig_int(int sig)
+{
+    exit(reset_term());
+}
