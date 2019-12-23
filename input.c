@@ -9,27 +9,29 @@ static void handle_sig_int(int sig);
 #include <string.h>
 #include <signal.h>
 
-#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
-#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
-#endif
+static DWORD initial_mode_in = 0,
+             initial_mode_out = 0;
 
-static DWORD initial_mode = 0;
+static HANDLE h_stdout = INVALID_HANDLE_VALUE,
+              h_stdin = INVALID_HANDLE_VALUE;
 
 int init_term(void)
 {
-    HANDLE h_stdout;
-    DWORD mode;
+    DWORD mode_in, mode_out;
 
+    h_stdin = GetStdHandle(STD_INPUT_HANDLE);
     h_stdout = GetStdHandle(STD_OUTPUT_HANDLE);
-    if (h_stdout == INVALID_HANDLE_VALUE)
+    if (h_stdin == INVALID_HANDLE_VALUE || h_stdout == INVALID_HANDLE_VALUE)
         return GetLastError();
 
-    if (!GetConsoleMode(h_stdout, &mode))
+    if (!GetConsoleMode(h_stdin, &mode_in) || !GetConsoleMode(h_stdout, &mode_out))
         return GetLastError();
-    memcpy(&initial_mode, &mode, sizeof(DWORD));
+    memcpy(&initial_mode_in, &mode_in, sizeof(DWORD));
+    memcpy(&initial_mode_out, &mode_out, sizeof(DWORD));
 
-    mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-    if (!SetConsoleMode(h_stdout, mode))
+    mode_out |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+    mode_in |= ENABLE_VIRTUAL_TERMINAL_INPUT;
+    if (!SetConsoleMode(h_stdout, mode_out) || !SetConsoleMode(h_stdin, mode_in))
         return GetLastError();
 
     signal(SIGINT, handle_sig_int);
@@ -38,17 +40,14 @@ int init_term(void)
 }
 
 int reset_term(void)
-{
-    HANDLE h_stdout;
-
-    if (initial_mode == 0)
+{  
+    if (h_stdin == INVALID_HANDLE_VALUE || h_stdout == INVALID_HANDLE_VALUE)
         return 1;
 
-    h_stdout = GetStdHandle(STD_OUTPUT_HANDLE);
-    if (h_stdout == INVALID_HANDLE_VALUE)
-        return GetLastError();
+    if (initial_mode_in == 0 || initial_mode_out == 0)
+        return 1;
 
-    if (!SetConsoleMode(h_stdout, initial_mode))
+    if (!SetConsoleMode(h_stdout, initial_mode_out) || !SetConsoleMode(h_stdin, initial_mode_in))
         return GetLastError();
     return 0;
 }
