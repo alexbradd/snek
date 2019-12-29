@@ -6,13 +6,13 @@ TARGET = snek
 $(TARGET): main.o input.o graphics.o
 	$(CC) $(CFLAGS) main.o input.o graphics.o -o $(TARGET)
 
-main.o:
+main.o: main.c
 	$(CC) $(CFLAGS) -c main.c
 
-input.o:
+input.o: input.c input.h
 	$(CC) $(CFLAGS) -c input.c
 
-graphics.o:
+graphics.o: graphics.c graphics.h
 	$(CC) $(CFLAGS) -c graphics.c
 
 clean:
