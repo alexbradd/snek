@@ -7,12 +7,12 @@
 
 #if defined(_WIN64) || defined(_WIN32)
 
-#include <windows.h>
-#define usleep(useconds) do {Sleep((useconds) * 0.001);} while(0)
+    #include <windows.h>
+    #define usleep(useconds) do {Sleep((useconds) * 0.001);} while(0)
 
 #elif defined(__unix__) || defined(__APPLE__)
 
-#include <unistd.h>
+    #include <unistd.h>
 
 #endif
 
